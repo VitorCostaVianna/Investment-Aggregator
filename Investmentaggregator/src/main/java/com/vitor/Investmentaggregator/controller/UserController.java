@@ -1,6 +1,7 @@
 package com.vitor.Investmentaggregator.controller;
  
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.vitor.Investmentaggregator.controller.dto.CreateUserDto;
 import com.vitor.Investmentaggregator.entities.User;
 import com.vitor.Investmentaggregator.services.UserService;
+
 
 @RestController
 @RequestMapping("/v1/users")
@@ -41,4 +43,13 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping()
+    public ResponseEntity<List<User>> getAllUsers() {
+        
+        var users = userService.getAllUsers();
+
+        return ResponseEntity.ok(users);
+    }
+    
 }
