@@ -15,8 +15,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = user.TABLE_NAME)
-public class user {
+@Table(name = User.TABLE_NAME)
+public class User {
     
     private static final String TABLE_NAME = "tb_user";
 
@@ -40,10 +40,10 @@ public class user {
     @UpdateTimestamp
     private Instant updatedTimestamp;
 
-    public user() {
+    public User() {
     }
 
-    public user(UUID userId, String username,
+    public User(UUID userId, String username,
                 String password, String email,
                 Instant creationTimestamp, Instant updatedTimestamp) {
         this.setUserId(userId);
