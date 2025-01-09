@@ -22,6 +22,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(HttpMethod.POST, "/v1/users/*").permitAll()
                 .requestMatchers(HttpMethod.GET, "v1/users/*").permitAll()
+                .requestMatchers(HttpMethod.PUT, "v1/users/*").permitAll()
                 .anyRequest().permitAll() // allow all requests
             )
             .csrf(csrf -> csrf.disable()); //

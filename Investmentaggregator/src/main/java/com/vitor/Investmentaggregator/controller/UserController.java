@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,8 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vitor.Investmentaggregator.controller.dto.CreateUserDto;
+import com.vitor.Investmentaggregator.controller.dto.UpdateUserDto;
 import com.vitor.Investmentaggregator.entities.User;
 import com.vitor.Investmentaggregator.services.UserService;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 
 @RestController
@@ -52,4 +56,20 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
     
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<Void> deleteUserById(@PathVariable("userId") String userId) {
+        
+        userService.deleteUserById(userId);
+        
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{userId}")
+    public ResponseEntity<Void> updateUserById(@PathVariable("userId") String userId,
+                                               @RequestBody UpdateUserDto dto) {
+        
+        userService.updateUserById(userId, dto);
+        
+        return ResponseEntity.noContent().build();
+    }
 }
