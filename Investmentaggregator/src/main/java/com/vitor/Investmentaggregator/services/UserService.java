@@ -1,6 +1,7 @@
 package com.vitor.Investmentaggregator.services;
 
 import java.time.Instant;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -39,5 +40,10 @@ public class UserService {
         var userSaved = userRepository.save(user);
 
         return userSaved.getUserId();
+    }
+
+    public Optional<User> getUserById(String userId) {
+        
+        return userRepository.findById(UUID.fromString(userId));
     }
 }
