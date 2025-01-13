@@ -54,21 +54,21 @@ public class UserService {
     }
 
     @Transactional
-    public void deleteUserById(String userId) throws IllegalArgumentException {
+    public void deleteUserById(String userId){
         var  id = UUID.fromString(userId);
 
         var userExists = userRepository.existsById(id);
 
-        if (!userExists) {
-            throw new IllegalArgumentException("User not found");
+        if (userExists) {
+            userRepository.deleteById(id);
+        } else{
+            return;
         }
-
-        userRepository.deleteById(id);
     }
 
     @Transactional
     public void updateUserById(String userId,
-                               UpdateUserDto dto){
+                               UpdateUserDto dto) {
         var  id = UUID.fromString(userId);
         var userExists = userRepository.findById(id);
 
@@ -85,9 +85,8 @@ public class UserService {
                 user.setPassword(encodedPassword);
             }
         } else {
-            throw new IllegalArgumentException("User not found");
+            return;
         }
-
 
         userRepository.save(userExists.get());
     }
