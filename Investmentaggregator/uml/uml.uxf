@@ -1,0 +1,38 @@
+<diagram program="umletino" version="15.1"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>80</x><y>170</y><w>210</w><h>100</h></coordinates><panel_attributes>user
+--
+-user_id : UUID
+-username : String
+-email : String
+-password : String
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>380</x><y>180</y><w>210</w><h>70</h></coordinates><panel_attributes>Account
+--
+-account_id : UUID
+-description : String
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>380</x><y>350</y><w>210</w><h>70</h></coordinates><panel_attributes>Account_stock
+--
+-account_id : UUID
+-stock_id  : UUID
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>80</x><y>340</y><w>210</w><h>80</h></coordinates><panel_attributes>Stock
+--
+-stock_id  : UUID
+-description : String
+-ticker
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>670</x><y>180</y><w>210</w><h>80</h></coordinates><panel_attributes>BillingAddress
+--
+-account_id : UUID
+-street : String
+- number : int
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>280</x><y>210</y><w>120</w><h>40</h></coordinates><panel_attributes>lt=&lt;&lt;-
+m2=1
+m1=*</panel_attributes><additional_attributes>100;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>280</x><y>370</y><w>120</w><h>40</h></coordinates><panel_attributes>lt=&lt;&lt;-
+m2=1
+m1=*</panel_attributes><additional_attributes>100;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>580</x><y>210</y><w>110</w><h>40</h></coordinates><panel_attributes>lt=&lt;&lt;-
+m2=1
+m1=1</panel_attributes><additional_attributes>90;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>470</x><y>240</y><w>40</w><h>130</h></coordinates><panel_attributes>lt=&lt;&lt;-
+m2=1
+m1=*</panel_attributes><additional_attributes>10;110;10;10</additional_attributes></element></diagram>
