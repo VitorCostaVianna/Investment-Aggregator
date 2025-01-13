@@ -10,10 +10,11 @@
 -account_id : UUID
 -description : String
 --
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>380</x><y>350</y><w>210</w><h>70</h></coordinates><panel_attributes>Account_stock
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>380</x><y>350</y><w>210</w><h>80</h></coordinates><panel_attributes>Account_stock
 --
 -account_id : UUID
 -stock_id  : UUID
+-quantity : Integer
 --
 </panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>80</x><y>340</y><w>210</w><h>80</h></coordinates><panel_attributes>Stock
 --
