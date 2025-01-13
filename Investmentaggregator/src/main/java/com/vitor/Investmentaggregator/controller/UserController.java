@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vitor.Investmentaggregator.controller.dto.AccountResponseDto;
 import com.vitor.Investmentaggregator.controller.dto.CreateAccountDto;
 import com.vitor.Investmentaggregator.controller.dto.CreateUserDto;
 import com.vitor.Investmentaggregator.controller.dto.UpdateUserDto;
@@ -82,4 +83,14 @@ public class UserController {
         
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/{userId}/account")
+    public ResponseEntity<List<AccountResponseDto>> getAccountByUserId(@PathVariable("userId") String userId) {
+        
+        var accounts = userService.getAccountById(userId);
+        
+        return ResponseEntity.ok(accounts);
+    }
+
+
 }

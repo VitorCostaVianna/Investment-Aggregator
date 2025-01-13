@@ -4,12 +4,14 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.vitor.Investmentaggregator.controller.dto.AccountResponseDto;
 import com.vitor.Investmentaggregator.controller.dto.CreateAccountDto;
 import com.vitor.Investmentaggregator.controller.dto.CreateUserDto;
 import com.vitor.Investmentaggregator.controller.dto.UpdateUserDto;
@@ -122,5 +124,22 @@ public class UserService {
                                               dto.number(),
                                               accountSaved);
         billingAdressRepository.save(billingAdress);
+    }
+
+    public List<AccountResponseDto> getAccountById(String userId) {
+        var userExists = userRepository.findById(UUID.fromString(userId))
+                        .orElseThrow(() -> 
+                            new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+        
+        return userExists.getAccounts()
+                    .stream()
+                    .map(a -> 
+                            new AccountResponseDto(a.getAccountId().toString(),
+                                                              a.getDescription(),
+                                                              a.getBillingAdress().getStreet(),
+                                                              a.getBillingAdress().getNumber()
+                                                              ))
+                    .collect(Collectors.toList());
+        
     }
 }
