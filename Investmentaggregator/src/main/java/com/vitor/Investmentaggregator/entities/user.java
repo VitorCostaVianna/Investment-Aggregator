@@ -45,7 +45,6 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Account> accounts;
 
-
     public User() {
     }
 

@@ -4,9 +4,10 @@ import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -16,15 +17,21 @@ public class BillingAdress {
     private static final String TABLE_NAME = "tb_billing_adress";
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "billing_adress_id")
-    private UUID billingAdressId;
+    @Column(name = "account_id")
+    private UUID id;
 
     @Column(name = "street")
     private String street;
 
     @Column(name = "number")
-    private int number;
+    private Integer number;
+
+    @OneToOne()
+    @MapsId // This annotation is used to map the primary key of the target entity as a foreign key to the owning entity.
+    @JoinColumn(
+        name = "account_id"
+    )
+    private Account account;
 
     public BillingAdress() {
     }
@@ -36,11 +43,11 @@ public class BillingAdress {
     }
 
     public UUID getBillingAdressId() {
-        return billingAdressId;
+        return id;
     }
 
-    public void setBillingAdressId(UUID billingAdressId) {
-        this.billingAdressId = billingAdressId;
+    public void setBillingAdressId(UUID id) {
+        this.id = id;
     }
 
     public String getStreet() {

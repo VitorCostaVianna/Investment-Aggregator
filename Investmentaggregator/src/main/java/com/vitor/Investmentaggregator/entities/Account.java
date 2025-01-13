@@ -9,6 +9,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 
 @Entity
@@ -28,6 +30,10 @@ public class Account {
         referencedColumnName = "user_id"
     )
     private User user;
+
+    @OneToOne(mappedBy = "account")
+    @PrimaryKeyJoinColumn  // This annotation is used to define the primary key column that is used as a foreign key to join to another table.
+    private BillingAdress billingAdress;
 
     @Column(name = "description")
     private String description;
