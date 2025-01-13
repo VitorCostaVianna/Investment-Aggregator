@@ -2,6 +2,7 @@ package com.vitor.Investmentaggregator.entities;
 
 import java.util.UUID;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -11,8 +12,8 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = BillingAdress.TABLE_NAME)
-public class BillingAdress {
+@Table(name = BillingAddress.TABLE_NAME)
+public class BillingAddress {
     
     private static final String TABLE_NAME = "tb_billing_adress";
 
@@ -26,20 +27,20 @@ public class BillingAdress {
     @Column(name = "number")
     private Integer number;
 
-    @OneToOne()
+    @OneToOne(cascade = CascadeType.ALL)
     @MapsId // This annotation is used to map the primary key of the target entity as a foreign key to the owning entity.
     @JoinColumn(
         name = "account_id"
     )
     private Account account;
 
-    public BillingAdress() {
+    public BillingAddress() {
     }
 
-    public BillingAdress(UUID billingAdressId, String street, int number) {
-        this.setBillingAdressId(billingAdressId);
+    public BillingAddress(String street, int number, Account account) {
         this.setStreet(street);
         this.setNumber(number);
+        this.setAccount(account);
     }
 
     public UUID getBillingAdressId() {
@@ -64,6 +65,14 @@ public class BillingAdress {
 
     public void setNumber(int number) {
         this.number = number;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
  
 }

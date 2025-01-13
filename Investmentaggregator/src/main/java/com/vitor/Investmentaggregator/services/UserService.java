@@ -5,12 +5,19 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
+import com.vitor.Investmentaggregator.controller.dto.CreateAccountDto;
 import com.vitor.Investmentaggregator.controller.dto.CreateUserDto;
 import com.vitor.Investmentaggregator.controller.dto.UpdateUserDto;
+import com.vitor.Investmentaggregator.entities.Account;
+import com.vitor.Investmentaggregator.entities.BillingAddress;
 import com.vitor.Investmentaggregator.entities.User;
+import com.vitor.Investmentaggregator.repository.AccountRepository;
+import com.vitor.Investmentaggregator.repository.BillingAdressRepository;
 import com.vitor.Investmentaggregator.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
@@ -20,11 +27,18 @@ public class UserService {
     
     private final UserRepository userRepository;
 
+    private final AccountRepository accountRepository;
+
+    private final BillingAdressRepository billingAdressRepository;
+
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
+                       AccountRepository accountRepository, BillingAdressRepository billingAdressRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.accountRepository = accountRepository;
+        this.billingAdressRepository = billingAdressRepository;
     }
 
     @Transactional
@@ -89,5 +103,24 @@ public class UserService {
         }
 
         userRepository.save(userExists.get());
+    }
+
+    @Transactional
+    public void createAccount(String userId , CreateAccountDto dto) {
+        var user = userRepository.findById(UUID.fromString(userId))
+                .orElseThrow(() -> 
+                    new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+        
+        var account = new Account();
+        account.setUser(user);
+        account.setDescription(dto.description());
+
+        var accountSaved = accountRepository.save(account);
+
+        var billingAdress = new BillingAddress(
+                                              dto.street(),
+                                              dto.number(),
+                                              accountSaved);
+        billingAdressRepository.save(billingAdress);
     }
 }
