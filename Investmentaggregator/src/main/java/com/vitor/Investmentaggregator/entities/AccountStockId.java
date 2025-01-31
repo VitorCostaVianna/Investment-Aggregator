@@ -1,5 +1,7 @@
 package com.vitor.Investmentaggregator.entities;
 
+import java.util.UUID;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
@@ -7,7 +9,7 @@ import jakarta.persistence.Embeddable;
 public class AccountStockId {
     
     @Column(name = "account_id")
-    private String accountId;
+    private UUID accountId;
 
     @Column(name = "stock_id")
     private String stockId;
@@ -15,16 +17,16 @@ public class AccountStockId {
     public AccountStockId() {
     }
 
-    public AccountStockId(String accountId, String stockId) {
+    public AccountStockId(UUID accountId, String stockId) {
         this.setAccountId(accountId);
         this.setStockId(stockId);
     }
 
-    public String getAccountId() {
+    public UUID getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(String accountId) {
+    public void setAccountId(UUID accountId) {
         this.accountId = accountId;
     }
 
