@@ -3,10 +3,12 @@ package com.vitor.Investmentaggregator.services;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.vitor.Investmentaggregator.client.BrapiClient;
 import com.vitor.Investmentaggregator.controller.dto.AccountStockResponseDto;
 import com.vitor.Investmentaggregator.controller.dto.AssociateAccountStockDto;
 import com.vitor.Investmentaggregator.entities.AccountStock;
@@ -17,6 +19,8 @@ import com.vitor.Investmentaggregator.repository.StockRepository;
 
 @Service
 public class AccountService {
+    @Value("#{environment.TOKEN}")
+    private String TOKEN;
     
     private final AccountRepository accountRepository;
     
@@ -24,12 +28,16 @@ public class AccountService {
 
     private final AccountStockRepository accountStockRepository;
 
+    private final BrapiClient brapiClient;
+
     public AccountService(AccountRepository accountRepository, 
                           StockRepository stockRepository,
-                          AccountStockRepository accountStockRepository) {
+                          AccountStockRepository accountStockRepository,
+                          BrapiClient brapiClient) {
         this.accountRepository = accountRepository;
         this.stockRepository = stockRepository;
         this.accountStockRepository = accountStockRepository;
+        this.brapiClient = brapiClient;
     }
 
     public void associateStock(String accountId, AssociateAccountStockDto dto) {
@@ -55,9 +63,18 @@ public class AccountService {
         return account.getAccountStocks().stream()
                     .map(a -> new AccountStockResponseDto(a.getStock().getStockId().toString(),
                                                           a.getQuantity(),
-                                                          0.0))
+                                                            getTotalPrice(a.getStock().getStockId(), a.getQuantity())
+                                                        ))
                     .toList();
     
+    }
+
+    private double getTotalPrice(String stockId , int quantity) {
+        var response = brapiClient.getQuote(TOKEN, stockId);
+
+        var price = response.results().getFirst().regularMarketPrice();
+
+        return price * quantity;
     }
     
 }
