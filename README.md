@@ -64,6 +64,43 @@ Assert: We check if the returned account matches expectations.
 
 Using Mockito, you can effectively test your Spring Boot services while keeping your tests fast, reliable, and independent from external dependencies. 🚀
 
+### 🔹 Consuming an API with OpenFeign
+
+To integrate with external APIs, this project uses OpenFeign, which simplifies HTTP client requests. The application fetches stock market data from the Brazilian stock exchange API.
+
+You will need : 
+
+#### Define the Feign Client :
+```java
+@FeignClient(
+    name = "BrapiClient",
+    url = "https://brapi.dev"
+)
+public interface BrapiClient {
+    
+    @GetMapping(value = "/api/quote/{stockId}")
+    BrapiResponseDto getQuote(@RequestParam("token") String token,
+                              @PathVariable("stockId") String stockId);
+}
+```
+**Explanation**:
+
+**@FeignClient**: 
+Specifies the client name and the base URL of the API (https://brapi.dev).
+
+@GetMapping: Defines a GET request to the /api/quote/{stockId} endpoint.
+
+@RequestParam: Adds the token query parameter to the request.
+
+@PathVariable: Binds the {stockId} in the URL to the stockId method parameter.
+
+**Summary**
+
+- OpenFeign makes it easy to call REST APIs using interfaces and annotations.
+
+- Define the client with @FeignClient, specify the endpoint with @GetMapping, and use @RequestParam and @PathVariable for parameters.
+
+- Inject the client into your service or controller to make API calls.
 
 ## Features
   
@@ -81,14 +118,12 @@ The project follows a relational database design, as shown in the UML diagram:
 - Each **Account** has a **Billing Address**.  
 - Accounts hold multiple **Stocks** via a junction table (**Account_Stock**).  
 
-## Installation
+## Environment Variables
 
-Install my-project with npm
+To run this project, you will need to add the following environment variables to your .env file
 
-```bash
-npm install my-project
-cd my-project
-```
+`TOKEN`
+
 
 ## License
 
